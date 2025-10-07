@@ -4,7 +4,8 @@
   --surface:#121217;
   --surface-2:#171922;
   --text:#f6f6f7;
-  --muted:#b9bcc7;
+  --muted:#4e5361;
+  --muted-strong:#b9bcc7;
   --gold:#c9a227;
   --gold-2:#e2c874;
   --glass:rgba(255,255,255,0.06);
@@ -12,6 +13,51 @@
   --ok:#2bd97c;
   --warn:#ffcc66;
   --danger:#ff7a7a;
+
+  /* chart colors */
+  --chart-axis: rgba(255,255,255,0.2);
+  --chart-grid: rgba(255,255,255,0.08);
+  --chart-label: rgba(255,255,255,0.6);
+  --chart-bar: rgba(201,162,39,0.9);
+  --chart-value: rgba(255,255,255,0.8);
+}
+
+/* Light theme */
+:root[data-theme="light"]{
+  --bg:#f6f7fb;
+  --surface:#ffffff;
+  --surface-2:#f2f4f8;
+  --text:#121217;
+  --muted:#667085;
+  --muted-strong:#3a3f4b;
+  --glass:rgba(0,0,0,0.03);
+  --border:rgba(0,0,0,0.12);
+
+  --chart-axis: rgba(0,0,0,0.25);
+  --chart-grid: rgba(0,0,0,0.06);
+  --chart-label: rgba(0,0,0,0.55);
+  --chart-bar: rgba(201,162,39,0.9);
+  --chart-value: rgba(0,0,0,0.7);
+}
+
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){ 
+    /* If user prefers light and no explicit theme chosen */
+    --bg:#f6f7fb;
+    --surface:#ffffff;
+    --surface-2:#f2f4f8;
+    --text:#121217;
+    --muted:#667085;
+    --muted-strong:#3a3f4b;
+    --glass:rgba(0,0,0,0.03);
+    --border:rgba(0,0,0,0.12);
+
+    --chart-axis: rgba(0,0,0,0.25);
+    --chart-grid: rgba(0,0,0,0.06);
+    --chart-label: rgba(0,0,0,0.55);
+    --chart-bar: rgba(201,162,39,0.9);
+    --chart-value: rgba(0,0,0,0.7);
+  }
 }
 
 *{box-sizing:border-box}
@@ -25,7 +71,7 @@ a{color:inherit;text-decoration:none}
 .align-center{align-items:center}
 .between{justify-content:space-between}
 
-.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(0,0,0,0.6),transparent),var(--surface);border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
+.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(0,0,0,0.06),transparent),var(--surface);border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
 .topbar .brand{display:flex;align-items:center;gap:10px;padding:14px 0}
 .crest{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--gold),var(--gold-2));box-shadow:0 1px 0 rgba(0,0,0,.2), inset 0 0 0 2px rgba(255,255,255,.08)}
 .brand-text{font-weight:700;letter-spacing:.3px}
@@ -39,13 +85,14 @@ a{color:inherit;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--text)}
 .btn.ghost:hover{background:var(--glass)}
 
-.hero{padding:64px 0 32px;background:radial-gradient(1200px 500px at 20% -10%, rgba(201,162,39,.25), transparent)}
+.hero{padding:64px 0 32px;background:radial-gradient(1200px 500px at 20% -10%, rgba(201,162,39,.18), transparent)}
 .hero-text h1{font-size:40px;line-height:1.1;margin:0 0 10px}
 .lead{color:var(--muted);font-size:18px;margin:0 0 22px}
 .hero-card .card{margin-top:8px}
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:18px}
 .card.glass{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));backdrop-filter: blur(6px)}
+:root[data-theme="light"] .card.glass{background:linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,.015))}
 
 .card-header h3{margin:0;font-size:18px}
 .badge{padding:6px 10px;border-radius:999px;background:rgba(201,162,39,.15);color:var(--gold);border:1px solid rgba(201,162,39,.35);font-weight:600}
@@ -57,7 +104,8 @@ a{color:inherit;text-decoration:none}
 
 .progress{margin:10px 0 18px}
 .progress-top,.progress-bottom{font-size:12px;color:var(--muted)}
-.bar{height:12px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:6px 0 6px}
+.bar{height:12px;background:rgba(0,0,0,.06);border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:6px 0 6px}
+:root[data-theme="dark"] .bar{background:rgba(255,255,255,.06)}
 .bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-2));width:0%}
 
 .section{padding:64px 0}
@@ -71,40 +119,40 @@ a{color:inherit;text-decoration:none}
 
 .form .field{margin-bottom:12px}
 .form label{display:block;margin-bottom:6px;font-size:14px;color:var(--muted)}
-.form input,.form textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:#0e0f14;color:var(--text)}
+.form input,.form textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:color-mix(in oklab, var(--surface) 85%, black 5%);color:var(--text)}
+:root[data-theme="light"] .form input, :root[data-theme="light"] .form textarea{background:#ffffff}
 .form-status{margin-top:8px;color:var(--ok);min-height:1em}
 
-.bank-box{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;padding:12px;border:1px solid var(--border);border-radius:16px;background:#0e0f14}
+.bank-box{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;padding:12px;border:1px solid var(--border);border-radius:16px;background:color-mix(in oklab, var(--surface) 88%, black 7%)}
+:root[data-theme="light"] .bank-box{background:#f9fafb}
 
 .footer{border-top:1px solid var(--border);padding:18px 0;background:var(--surface)}
 .muted{color:var(--muted)}.small{font-size:12px}
 
+/* Enhanced responsiveness */
+@media (max-width:1280px){
+  .container{max-width:1000px}
+  .grid-2{grid-template-columns:1fr 1fr}
+}
 @media (max-width:980px){
   .grid-2{grid-template-columns:1fr}
   .grid-3{grid-template-columns:1fr}
   .kpi-grid{grid-template-columns:1fr 1fr}
+  .hero{padding:48px 0 24px}
+  .hero-text h1{font-size:34px}
+}
+@media (max-width:720px){
+  .kpi-grid{grid-template-columns:1fr}
+  .bank-box{grid-template-columns:1fr}
+  .nav{display:none} /* keep header clean on very small screens */
+  .container{padding:0 16px}
+  .hero-text h1{font-size:28px}
 }
 
-#donationsChart{width:100%;display:block}
+/* --- Ensure theme toggle is always visible and aligned --- */
+#themeToggle{display:inline-flex !important; align-items:center; justify-content:center}
 
-/* --- iPhone header centering & nav fix --- */
-@media (max-width: 820px){
-  .topbar .container{
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  .topbar .brand{margin-right:auto}
-  .topbar .nav{display:none !important;} /* hide vertical menu on small screens */
-  .topbar .actions{margin-left:auto; gap:8px}
-  .actions .btn.primary{padding:9px 14px}
-  /* keep the donate pill from touching screen edges */
-  .topbar{padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right);}
-}
-
-/* Slightly tighter hero heading on mobile for visual centering */
-@media (max-width: 420px){
-  .hero-text h1{letter-spacing:-0.2px; line-height:1.06}
+/* Desktop chart size hint (JS sets height, but this keeps intent clear) */
+@media (min-width: 1024px){
+  #donationsChart{min-height:360px}
 }
