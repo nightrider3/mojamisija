@@ -1,28 +1,4 @@
 // Vanilla JS for language, fake data, KPIs, canvas chart, and simple animations
-// ---- Theme (Light/Dark) ----
-const root = document.documentElement;
-const themeToggle = document.getElementById('themeToggle');
-const storedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-applyTheme(storedTheme);
-
-if(themeToggle){
-  themeToggle.addEventListener('click', () => {
-    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    applyTheme(next);
-    // redraw chart to apply new colors
-    setTimeout(drawChart, 0);
-  });
-}
-
-function applyTheme(theme){
-  root.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  if(themeToggle){
-    themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
-    themeToggle.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
-    themeToggle.title = themeToggle.getAttribute('aria-label');
-  }
-}
 
 // ---- Language ----
 const langSelect = document.getElementById('langSelect');
@@ -163,14 +139,33 @@ function renderLists() {
 }
 renderLists();
 
-// ---- Chart (vanilla canvas) ----
-function cssVar(name){
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+// ---- Responsive Canvas ----
+function resizeCanvas(){
+  const canvas = document.getElementById('donationsChart');
+  if(!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  // Ensure CSS width is respected; height is proportional
+  const rect = canvas.getBoundingClientRect();
+  const targetWidth = Math.max(320, rect.width); // fallback min
+  const targetHeightCss = Math.max(180, Math.min(360, targetWidth * 0.45)); // 45% of width, clamped
+  // Set the CSS height to keep layout stable
+  canvas.style.height = targetHeightCss + 'px';
+  // Set internal pixel buffer with DPR for crisp lines
+  canvas.width = Math.floor(targetWidth * dpr);
+  canvas.height = Math.floor(targetHeightCss * dpr);
 }
+
+function debounce(fn, ms){let t;return function(){clearTimeout(t);t=setTimeout(()=>fn.apply(this, arguments), ms);}}
+window.addEventListener('resize', debounce(()=>{ resizeCanvas(); resizeCanvas();
+drawChart(); }, 120));
+
+// ---- Chart (vanilla canvas) ----
 function drawChart() {
+  resizeCanvas();
   const canvas = document.getElementById('donationsChart');
   const ctx = canvas.getContext('2d');
-  const padding = { top: 20, right: 20, bottom: 36, left: 64 };
+  const padding = { top: 20, right: 20, bottom: 36, left: 48 };
   const w = canvas.width, h = canvas.height;
   ctx.clearRect(0,0,w,h);
 
@@ -179,15 +174,8 @@ function drawChart() {
   const maxVal = Math.max(...values) * 1.2;
   const barW = (w - padding.left - padding.right) / values.length * 0.6;
 
-  // Colors from CSS variables to adapt to theme
-  const AXIS = cssVar('--chart-axis');
-  const GRID = cssVar('--chart-grid');
-  const LABEL = cssVar('--chart-label');
-  const BAR = cssVar('--chart-bar');
-  const VALUE = cssVar('--chart-value');
-
   // Axes
-  ctx.strokeStyle = AXIS;
+  ctx.strokeStyle = "rgba(255,255,255,0.2)";
   ctx.beginPath();
   ctx.moveTo(padding.left, padding.top);
   ctx.lineTo(padding.left, h - padding.bottom);
@@ -195,14 +183,14 @@ function drawChart() {
   ctx.stroke();
 
   // Y grid & labels
-  ctx.fillStyle = LABEL;
+  ctx.fillStyle = "rgba(255,255,255,0.6)";
   ctx.font = "12px Inter, sans-serif";
   const steps = 4;
   for (let i=0; i<=steps; i++){
     const y = h - padding.bottom - (i/steps)*(h - padding.top - padding.bottom);
     const val = Math.round((i/steps)*maxVal);
     ctx.fillText(euro(val), 6, y+4);
-    ctx.strokeStyle = GRID;
+    ctx.strokeStyle = "rgba(255,255,255,0.08)";
     ctx.beginPath(); ctx.moveTo(padding.left, y); ctx.lineTo(w - padding.right, y); ctx.stroke();
   }
 
@@ -213,14 +201,14 @@ function drawChart() {
     const targetH = (values[idx]/maxVal) * (h - padding.top - padding.bottom);
     let cur = 0;
     const step = () => {
-      ctx.fillStyle = BAR;
+      ctx.fillStyle = "rgba(201,162,39,0.9)";
       ctx.fillRect(x, h - padding.bottom - cur, barW, cur);
       if (cur < targetH) {
         cur += Math.max(1, targetH/20);
         requestAnimationFrame(step);
       } else {
         // draw value label
-        ctx.fillStyle = VALUE;
+        ctx.fillStyle = "rgba(255,255,255,0.8)";
         ctx.font = "11px Inter, sans-serif";
         ctx.fillText(euro(values[idx]), x, h - padding.bottom - targetH - 6);
       }
@@ -228,12 +216,13 @@ function drawChart() {
     step();
 
     // X labels
-    ctx.fillStyle = LABEL;
+    ctx.fillStyle = "rgba(255,255,255,0.6)";
     ctx.font = "11px Inter, sans-serif";
     const label = m.slice(5) + "." + m.slice(2,4);
     ctx.fillText(label, xCenter - 12, h - padding.bottom + 16);
   });
 }
+resizeCanvas();
 drawChart();
 
 // ---- Static info ----
