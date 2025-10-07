@@ -256,3 +256,23 @@ const style = document.createElement('style');
 style.textContent = `.will-reveal{opacity:0;transform:translateY(8px);transition:.6s ease}
 .reveal{opacity:1;transform:none}`;
 document.head.appendChild(style);
+
+// ---- Theme toggle ----
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+  setTheme(currentTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const newTheme = (document.documentElement.dataset.theme === 'dark') ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  });
+
+  function setTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    themeToggle.textContent = (theme === 'light') ? '🌙' : '☀️';
+    document.body.style.background = (theme === 'light') ? '#fafafa' : 'var(--bg)';
+    document.body.style.color = (theme === 'light') ? '#111' : 'var(--text)';
+  }
+}
