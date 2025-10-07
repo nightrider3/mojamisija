@@ -1,75 +1,183 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SPC Salzburg</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SPC Salzburg – Donacije</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="main.js"></script>
 </head>
 <body>
-  <header class="main-header">
-    <div class="logo">⛪ SPC Salzburg</div>
-    <nav class="main-nav">
-      <ul>
-        <li><a href="#home">Početna</a></li>
-        <li><a href="#projekat">Projekat</a></li>
-        <li><a href="#tim">Građevinski Tim</a></li>
-        <li><a href="#finansije">Finansije</a></li>
-      </ul>
-    </nav>
+  <!-- Topbar (bez ikonica desno) -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="#home" class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">SPC Salzburg</span>
+      </a>
+
+      <div class="controls">
+        <label for="lang-select" class="visually-hidden">Jezik / Sprache</label>
+        <select id="lang-select" class="select" aria-label="Language">
+          <option value="sr-latn">Latinica</option>
+          <option value="sr-cyrl">Ћирилица</option>
+          <option value="de">Deutsch</option>
+        </select>
+
+        <button id="theme-toggle" class="btn ghost" type="button" aria-pressed="false">
+          <span class="only-light" data-i18n="theme_dark">Dark</span>
+          <span class="only-dark" data-i18n="theme_light">Light</span>
+        </button>
+      </div>
+    </div>
   </header>
 
-  <section class="hero" id="home">
-    <div class="hero-text">
-      <h1 id="animated-title"></h1>
-      <p>Transparentno, profesionalno, posvećeno.</p>
-      <div class="hero-buttons">
-        <a href="#finansije" class="btn red">Donacije</a>
-        <a href="#projekat" class="btn gold">O projektu</a>
-      </div>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+      <ul id="nav-menu" class="menu">
+        <li><a href="#home" class="trans" data-key="home">Početna</a></li>
+        <li><a href="#projekt" class="trans" data-key="about">O projektu</a></li>
+        <li><a href="#tim" class="trans" data-key="team">Tim</a></li>
+        <li><a href="#donacije" class="trans" data-key="donate">Donacije</a></li>
+      </ul>
     </div>
-    <div class="hero-banner"></div>
-  </section>
+  </nav>
 
-  <section class="features" id="projekat">
-    <h2>O projektu</h2>
-    <div class="features-grid">
-      <div class="feature-box">
-        <h3>Planiranje</h3>
-        <p>Stručni tim planira svaki detalj.</p>
-      </div>
-      <div class="feature-box">
-        <h3>Izgradnja</h3>
-        <p>Kvalitetna i bezbedna izgradnja crkve.</p>
-      </div>
-      <div class="feature-box">
-        <h3>Finansije</h3>
-        <p>Potpuna transparentnost troškova i donacija.</p>
+  <!-- Hero -->
+  <section id="home" class="hero container">
+    <div class="hero-inner reveal">
+      <h1 id="animated-title" class="hero-title" aria-live="polite"></h1>
+      <p class="hero-subtitle trans" data-key="subheading">Transparentno, profesionalno, posvećeno.</p>
+      <div class="hero-actions">
+        <a href="#donacije" class="btn primary trans" data-key="donate">Donacije</a>
+        <a href="#projekt" class="btn outline trans" data-key="about">O projektu</a>
       </div>
     </div>
   </section>
 
-  <section class="team" id="tim">
-    <h2>Građevinski tim</h2>
-    <div class="team-grid">
-      <div class="member"><strong>Marko Petrović</strong><br/>Glavni arhitekta</div>
-      <div class="member"><strong>Jelena Marić</strong><br/>Tehnički nadzor</div>
-      <div class="member"><strong>Dragan Jović</strong><br/>Vođa gradilišta</div>
+  <!-- Projekt -->
+  <section id="projekt" class="section container">
+    <h2 class="section-title reveal trans" data-key="about">O projektu</h2>
+    <div class="cards">
+      <article class="card reveal">
+        <h3 class="trans" data-key="planning">Planiranje</h3>
+        <p class="muted trans" data-key="planning_desc">Stručni tim planira svaki detalj.</p>
+      </article>
+      <article class="card reveal">
+        <h3 class="trans" data-key="building">Izgradnja</h3>
+        <p class="muted trans" data-key="building_desc">Kvalitetna i bezbedna izgradnja crkve.</p>
+      </article>
+      <article class="card reveal">
+        <h3 class="trans" data-key="finance">Finansije</h3>
+        <p class="muted trans" data-key="finance_desc">Potpuna transparentnost troškova i donacija.</p>
+      </article>
     </div>
   </section>
 
-  <section class="finance" id="finansije">
-    <h2>Finansije</h2>
-    <p>Ukupno prikupljeno: <strong>62.430€</strong></p>
-    <p>Potrebno do decembra 2025: <strong>80.000€</strong></p>
-    <p>Preostalo: <strong>17.570€</strong></p>
-    <a href="#" class="btn gold">Detaljan izveštaj</a>
+  <!-- Tim -->
+  <section id="tim" class="section container">
+    <h2 class="section-title reveal trans" data-key="team">Građevinski tim</h2>
+    <div class="cards grid-3">
+      <article class="card reveal">
+        <h3>Marko Petrović</h3>
+        <p class="muted trans" data-key="arch">Glavni arhitekta</p>
+      </article>
+      <article class="card reveal">
+        <h3>Jelena Marić</h3>
+        <p class="muted trans" data-key="supervisor">Tehnički nadzor</p>
+      </article>
+      <article class="card reveal">
+        <h3>Dragan Jović</h3>
+        <p class="muted trans" data-key="foreman">Vođa gradilišta</p>
+      </article>
+    </div>
   </section>
 
-  <footer>
-    <p>&copy; SPC Salzburg 2025</p>
+  <!-- Donacije Dashboard -->
+  <section id="donacije" class="section container">
+    <div class="section-head">
+      <h2 class="section-title trans reveal" data-key="donation_dashboard">Dashboard za Donacije</h2>
+      <div class="section-tools">
+        <label class="file">
+          <input type="file" id="donation-file" accept=".csv" />
+          <span class="trans" data-key="import_csv">Uvezi CSV</span>
+        </label>
+        <a id="export-json" class="btn ghost small" href="#" download="donations.json">
+          <span class="trans" data-key="export_json">Izvezi JSON</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat reveal">
+        <div class="stat-label trans" data-key="total">Ukupno prikupljeno:</div>
+        <div id="stat-total" class="stat-value">0 €</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-label trans" data-key="goal">Cilj do decembra 2025:</div>
+        <div id="stat-goal" class="stat-value">200.000 €</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-label trans" data-key="remaining">Preostalo:</div>
+        <div id="stat-remaining" class="stat-value">0 €</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-label trans" data-key="donor_count">Broj donatora</div>
+        <div id="stat-donors" class="stat-value">0</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-label trans" data-key="avg_donation">Prosečna donacija</div>
+        <div id="stat-avg" class="stat-value">0 €</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-label trans" data-key="last_donation">Poslednja donacija</div>
+        <div id="stat-last" class="stat-value">0 €</div>
+      </div>
+    </div>
+
+    <div class="progress reveal">
+      <div class="progress-top">
+        <span class="trans" data-key="progress_to_goal">Napredak ka cilju</span>
+        <span id="progress-percent">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="table-wrap reveal">
+      <table class="table" id="donation-table">
+        <thead>
+          <tr>
+            <th class="trans" data-key="t_date">Datum</th>
+            <th class="trans" data-key="t_name">Ime</th>
+            <th class="trans" data-key="t_amount">Iznos (€)</th>
+            <th class="trans" data-key="t_method">Metod</th>
+            <th class="trans" data-key="t_note">Napomena</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <p class="muted reveal">
+      <span class="trans" data-key="report">Detaljan izveštaj</span> — SPC Salzburg
+    </p>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 SPC Salzburg</p>
+    </div>
   </footer>
-
-  <script src="main.js"></script>
 </body>
 </html>
