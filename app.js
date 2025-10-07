@@ -276,3 +276,39 @@ if (themeToggle) {
     document.body.style.color = (theme === 'light') ? '#111' : 'var(--text)';
   }
 }
+// ---- Compact mobile menu ----
+const menuBtn = document.getElementById('menuToggle');
+const navEl = document.getElementById('nav');
+if (menuBtn && navEl){
+  const closeMenu = () => { navEl.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); };
+  menuBtn.addEventListener('click', () => {
+    const isOpen = navEl.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  // zatvori kada klikneš link
+  navEl.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  // zatvori na scroll
+  window.addEventListener('scroll', closeMenu, { passive:true });
+}
+// ---- Chart lightbox (click to enlarge) ----
+const smallCanvas = document.getElementById('donationsChart');
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lightboxImg');
+const lbClose = document.getElementById('lightboxClose');
+
+function openLightboxFromCanvas(cnv){
+  try{
+    const dataURL = cnv.toDataURL('image/png');
+    lbImg.src = dataURL;
+    lb.classList.add('show');
+    lb.setAttribute('aria-hidden','false');
+  }catch(e){ /* some browsers block if empty canvas */ }
+}
+
+if (smallCanvas && lb){
+  smallCanvas.style.cursor = 'zoom-in';
+  smallCanvas.addEventListener('click', ()=>openLightboxFromCanvas(smallCanvas));
+  lb.addEventListener('click', (e)=>{ if (e.target===lb || e.target.classList.contains('lightbox-backdrop')) lb.classList.remove('show'); });
+  lbClose.addEventListener('click', ()=> lb.classList.remove('show'));
+  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') lb.classList.remove('show'); });
+}

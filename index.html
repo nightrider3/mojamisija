@@ -19,12 +19,15 @@
         <span class="brand-text" data-i18n="brand">Parohija Salzburg</span>
       </div>
 
-      <nav class="nav">
-        <a href="#projekt" data-i18n="nav_project">O projektu</a>
-        <a href="#parohija" data-i18n="nav_parish">Parohija</a>
-        <a href="#finansije" data-i18n="nav_finance">Tokovi finansija</a>
-        <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
-      </nav>
+     <nav class="nav" id="nav">
+  <a href="#projekt" data-i18n="nav_project">O projektu</a>
+  <a href="#parohija" data-i18n="nav_parish">Parohija</a>
+  <a href="#finansije" data-i18n="nav_finance">Tokovi finansija</a>
+  <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
+</nav>
+
+<button id="menuToggle" class="icon-btn" aria-label="Menu" aria-expanded="false">☰</button>
+
 
       <div class="actions row align-center">
         <div class="lang-switch">
@@ -229,5 +232,12 @@
 
   <script src="translations.js"></script>
   <script src="app.js"></script>
+  <!-- Lightbox for chart -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <div class="lightbox-backdrop"></div>
+  <img id="lightboxImg" alt="Donations chart enlarged" />
+  <button id="lightboxClose" class="icon-btn close-btn" aria-label="Close">✕</button>
+</div>
+
 </body>
 </html>
