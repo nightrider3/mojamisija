@@ -139,8 +139,30 @@ function renderLists() {
 }
 renderLists();
 
+
+// ---- Responsive Canvas ----
+function resizeCanvas(){
+  const canvas = document.getElementById('donationsChart');
+  if(!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  // Ensure CSS width is respected; height is proportional
+  const rect = canvas.getBoundingClientRect();
+  const targetWidth = Math.max(320, rect.width); // fallback min
+  const targetHeightCss = Math.max(180, Math.min(360, targetWidth * 0.45)); // 45% of width, clamped
+  // Set the CSS height to keep layout stable
+  canvas.style.height = targetHeightCss + 'px';
+  // Set internal pixel buffer with DPR for crisp lines
+  canvas.width = Math.floor(targetWidth * dpr);
+  canvas.height = Math.floor(targetHeightCss * dpr);
+}
+
+function debounce(fn, ms){let t;return function(){clearTimeout(t);t=setTimeout(()=>fn.apply(this, arguments), ms);}}
+window.addEventListener('resize', debounce(()=>{ resizeCanvas(); resizeCanvas();
+drawChart(); }, 120));
+
 // ---- Chart (vanilla canvas) ----
 function drawChart() {
+  resizeCanvas();
   const canvas = document.getElementById('donationsChart');
   const ctx = canvas.getContext('2d');
   const padding = { top: 20, right: 20, bottom: 36, left: 48 };
@@ -200,6 +222,7 @@ function drawChart() {
     ctx.fillText(label, xCenter - 12, h - padding.bottom + 16);
   });
 }
+resizeCanvas();
 drawChart();
 
 // ---- Static info ----

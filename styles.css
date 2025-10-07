@@ -84,3 +84,5 @@ a{color:inherit;text-decoration:none}
   .grid-3{grid-template-columns:1fr}
   .kpi-grid{grid-template-columns:1fr 1fr}
 }
+
+#donationsChart{width:100%;display:block}
