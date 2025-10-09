@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Moja Misija — Izgradnja Hrama</title>
+  <title data-i18n="brand">Moja Misija — Izgradnja Hrama</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -13,19 +13,20 @@
   <aside class="sidebar lightnav">
     <div class="brand">
       <img src="logo1.png" alt="Logo" class="logo">
-      <span class="brand-text">Moja Misija</span>
+      <span class="brand-text" data-i18n="brand">Moja Misija</span>
     </div>
 
     <nav class="nav" id="nav">
-      <a href="#projekt">O projektu</a>
-      <a href="#galerija">Galerija</a>
-      <a href="#finansije">Tokovi finansija</a>
-      <a href="#kontakt">Kontakt</a>
+      <a href="#projekt" data-i18n="nav_project">O projektu</a>
+      <a href="#galerija" data-i18n="nav_gallery">Galerija</a>
+      <a href="#finansije" data-i18n="nav_finance">Tokovi finansija</a>
+      <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
     </nav>
 
     <div class="lang-area">
       <select id="langSelect">
         <option value="sr_lat">SR (latinica)</option>
+        <option value="sr_cyr">СР (ћирилица)</option>
         <option value="de">DE</option>
         <option value="en">EN</option>
       </select>
@@ -39,11 +40,11 @@
 
     <section class="hero">
       <div class="container">
-        <h1>Izgradnja pravoslavnog hrama u Salzburgu</h1>
-        <p class="lead">Zajedno gradimo sveti dom — transparentno, odgovorno i s ljubavlju.</p>
+        <h1 data-i18n="hero_title">Izgradnja pravoslavnog hrama u Salzburgu</h1>
+        <p class="lead" data-i18n="hero_subtitle">Zajedno gradimo sveti dom — transparentno, odgovorno i s ljubavlju.</p>
         <div class="hero-cta">
-          <a class="btn primary" href="#finansije">Pogledaj finansije</a>
-          <a class="btn ghost" href="#projekt">Saznaj više</a>
+          <a class="btn primary" href="#finansije" data-i18n="btn_finance">Pogledaj finansije</a>
+          <a class="btn ghost" href="#projekt" data-i18n="btn_more">Saznaj više</a>
         </div>
       </div>
     </section>
@@ -52,14 +53,15 @@
       <div class="container">
         <div class="card light">
           <div class="card-header">
-            <h3>Stanje donacija</h3>
+            <h3 data-i18n="chart_title">Stanje donacija</h3>
             <span class="badge" id="goalBadge">€ 0</span>
           </div>
+
           <div class="kpi-grid">
-            <div><div class="kpi-label">Ukupno donacija</div><div class="kpi-value" id="kpiTotal">€0</div></div>
-            <div><div class="kpi-label">Ovaj mjesec</div><div class="kpi-value" id="kpiMonth">€0</div></div>
-            <div><div class="kpi-label">Ove sedmice</div><div class="kpi-value" id="kpiWeek">€0</div></div>
-            <div><div class="kpi-label">Troškovi</div><div class="kpi-value" id="kpiCosts">€0</div></div>
+            <div><div class="kpi-label" data-i18n="kpi_total">Ukupno donacija</div><div class="kpi-value" id="kpiTotal">€0</div></div>
+            <div><div class="kpi-label" data-i18n="kpi_month">Ovaj mjesec</div><div class="kpi-value" id="kpiMonth">€0</div></div>
+            <div><div class="kpi-label" data-i18n="kpi_week">Ove sedmice</div><div class="kpi-value" id="kpiWeek">€0</div></div>
+            <div><div class="kpi-label" data-i18n="kpi_costs">Troškovi</div><div class="kpi-value" id="kpiCosts">€0</div></div>
           </div>
 
           <div class="progress">
@@ -75,49 +77,48 @@
 
     <section id="finansije" class="section">
       <div class="container">
-        <h2>Tokovi finansija</h2>
+        <h2 data-i18n="finance_title">Tokovi finansija</h2>
         <div class="grid-3 gap-24">
-          <div class="card glass"><h3>Ovaj mjesec</h3><ul id="monthList" class="list"></ul></div>
-          <div class="card glass"><h3>Ove sedmice</h3><ul id="weekList" class="list"></ul></div>
-          <div class="card glass"><h3>Troškovi</h3><ul id="costsList" class="list"></ul></div>
+          <div class="card glass"><h3 data-i18n="kpi_month">Ovaj mjesec</h3><ul id="monthList" class="list"></ul></div>
+          <div class="card glass"><h3 data-i18n="kpi_week">Ove sedmice</h3><ul id="weekList" class="list"></ul></div>
+          <div class="card glass"><h3 data-i18n="kpi_costs">Troškovi</h3><ul id="costsList" class="list"></ul></div>
         </div>
       </div>
     </section>
-<!-- O PROJEKTU (blog sekcija s PDF linkovima) -->
-<section id="projekt" class="section blog-section">
-  <div class="container">
-    <h2>O projektu</h2>
-    <p class="lead">
-      Projekat izgradnje Kulturnog i Duhovno-Pravoslavnog Centra u Guggenthalu
-      obuhvata crkvu, višenamensku salu i prostore za obrazovne i kulturne aktivnosti.
-      Na ovoj stranici redovno objavljujemo novosti, studije i planove.
-    </p>
 
-    <div class="blog-grid">
-      <article class="blog-card">
-        <h3>Studija izgradnje – kulturni i duhovni centar</h3>
-        <p>Prezentacija glavne ideje i vizije projekta sa osnovnim podacima o planiranom kompleksu.</p>
-        <a href="BS_Präsentation_2.pdf" target="_blank" class="btn primary">Otvori PDF</a>
-      </article>
+    <!-- O PROJEKTU -->
+    <section id="projekt" class="section blog-section">
+      <div class="container">
+        <h2 data-i18n="project_title">O projektu</h2>
+        <p class="lead" data-i18n="project_desc">
+          Projekat izgradnje Kulturnog i Duhovno-Pravoslavnog Centra u Guggenthalu obuhvata crkvu, višenamensku salu i prostore za obrazovne i kulturne aktivnosti. Na ovoj stranici redovno objavljujemo novosti, studije i planove.
+        </p>
 
-      <article class="blog-card">
-        <h3>Bebauungsstudie – osnove i parametri</h3>
-        <p>Sažetak osnovnih podataka o parceli, površini, planiranoj visini i mogućnostima izgradnje.</p>
-        <a href="Bebauungsstudie Kirche - Zusammenfassung Grundlagen.pdf" target="_blank" class="btn primary">Otvori PDF</a>
-      </article>
+        <div class="blog-grid">
+          <article class="blog-card">
+            <h3>Studija izgradnje – kulturni i duhovni centar</h3>
+            <p>Prezentacija glavne ideje i vizije projekta sa osnovnim podacima o planiranom kompleksu.</p>
+            <a href="BS_Präsentation_2.pdf" target="_blank" class="btn primary">Otvori PDF</a>
+          </article>
 
-      <article class="blog-card">
-        <h3>Kulturno i duhovno–pravoslavni centar</h3>
-        <p>Kompletna studija i 3D prikazi planiranog centra sa svim tehničkim detaljima i planovima.</p>
-        <a href="BS_Kulturelles und Geistlich-Orthodoxes Zentrum.pdf" target="_blank" class="btn primary">Otvori PDF</a>
-      </article>
-    </div>
-  </div>
-</section>
+          <article class="blog-card">
+            <h3>Bebauungsstudie – osnove i parametri</h3>
+            <p>Sažetak osnovnih podataka o parceli, površini, planiranoj visini i mogućnostima izgradnje.</p>
+            <a href="Bebauungsstudie Kirche - Zusammenfassung Grundlagen.pdf" target="_blank" class="btn primary">Otvori PDF</a>
+          </article>
+
+          <article class="blog-card">
+            <h3>Kulturno i duhovno–pravoslavni centar</h3>
+            <p>Kompletna studija i 3D prikazi planiranog centra sa svim tehničkim detaljima i planovima.</p>
+            <a href="BS_Kulturelles und Geistlich-Orthodoxes Zentrum.pdf" target="_blank" class="btn primary">Otvori PDF</a>
+          </article>
+        </div>
+      </div>
+    </section>
 
     <section id="galerija" class="section gallery-section">
       <div class="container">
-        <h2>Galerija</h2>
+        <h2 data-i18n="gallery_title">Galerija</h2>
         <div class="slideshow">
           <div class="slide active"><img src="West kirche.png" alt="West"></div>
           <div class="slide"><img src="Kirche1.png" alt="Nord Ost"></div>
@@ -131,24 +132,24 @@
     <section id="kontakt" class="section">
       <div class="container grid-2 gap-32 contact-donation">
         <div>
-          <h2>Kontakt</h2>
+          <h2 data-i18n="contact_title">Kontakt</h2>
           <form id="contactForm" class="form">
-            <div class="field"><label>Ime i prezime</label><input type="text" required></div>
-            <div class="field"><label>Email</label><input type="email" required></div>
-            <div class="field"><label>Poruka</label><textarea rows="5" required></textarea></div>
-            <button class="btn primary" type="submit">Pošalji</button>
+            <div class="field"><label data-i18n="contact_name">Ime i prezime</label><input type="text" required></div>
+            <div class="field"><label data-i18n="contact_email">Email</label><input type="email" required></div>
+            <div class="field"><label data-i18n="contact_message">Poruka</label><textarea rows="5" required></textarea></div>
+            <button class="btn primary" type="submit" data-i18n="contact_send">Pošalji</button>
             <p id="formStatus" class="form-status"></p>
           </form>
         </div>
 
         <div id="doniraj">
-          <h2>Donacije</h2>
+          <h2 data-i18n="donate_title">Donacije</h2>
           <div class="card light donate-card">
-            <p>Podržite izgradnju hrama bankovnim transferom ili QR kodom.</p>
+            <p data-i18n="donate_text">Podržite izgradnju hrama bankovnim transferom ili QR kodom.</p>
             <div class="bank-box">
               <div><strong>IBAN:</strong> AT61 1904 3002 3457 3201</div>
               <div><strong>BIC:</strong> RZOOAT2L</div>
-              <div><strong>Svrha:</strong> Donacija za izgradnju hrama</div>
+              <div><strong data-i18n="donate_purpose">Svrha:</strong> Donacija za izgradnju hrama</div>
             </div>
             <img src="qrcode.png" alt="QR Kod" class="qrcode">
           </div>
@@ -158,7 +159,7 @@
 
     <footer class="footer">
       <div class="container">
-        © <span id="year"></span> Moja Misija — Sva prava zadržana.
+        © <span id="year"></span> <span data-i18n="brand">Moja Misija</span> — <span data-i18n="rights">Sva prava zadržana.</span>
       </div>
     </footer>
   </main>
