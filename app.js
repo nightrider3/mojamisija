@@ -1,28 +1,31 @@
-// Vanilla JS for language, fake data, KPIs, canvas chart, and simple animations
-
-// ---- Language ----
+// ===============================
+// Language (i18n)
+// ===============================
 const langSelect = document.getElementById('langSelect');
 const storedLang = localStorage.getItem('lang') || 'sr_lat';
-langSelect.value = storedLang;
-applyLanguage(storedLang);
-langSelect.addEventListener('change', (e) => {
-  const lang = e.target.value;
-  localStorage.setItem('lang', lang);
-  applyLanguage(lang);
-});
-
+if (langSelect) {
+  langSelect.value = storedLang;
+  applyLanguage(storedLang);
+  langSelect.addEventListener('change', (e) => {
+    const lang = e.target.value;
+    localStorage.setItem('lang', lang);
+    applyLanguage(lang);
+  });
+}
 function applyLanguage(lang) {
-  const dict = window.i18n[lang] || window.i18n.sr_lat;
+  const dict = (window.i18n && window.i18n[lang]) || (window.i18n && window.i18n.sr_lat) || {};
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (dict[key]) el.textContent = dict[key];
   });
-  document.documentElement.lang = (lang === 'sr_cyr') ? 'sr' : lang.split('_')[0];
+  document.documentElement.lang = (lang === 'sr_cyr') ? 'sr' : (lang || 'sr').split('_')[0];
 }
 
-// ---- Fake data (replace with real API later) ----
+// ===============================
+// Demo podaci + helperi
+// ===============================
 const financeData = {
-  goalByDec2025: 450000, // EUR
+  goalByDec2025: 450000,
   totalDonations: 182350,
   costs: [
     { label: "Kupovina placa", amount: 120000 },
@@ -31,7 +34,6 @@ const financeData = {
     { label: "Ugovori i takse", amount: 7400 }
   ],
   donations: [
-    // YYYY-MM for chart (last 12 months)
     { month: "2024-11", amount: 12000 },
     { month: "2024-12", amount: 14500 },
     { month: "2025-01", amount: 9800 },
@@ -46,7 +48,6 @@ const financeData = {
     { month: "2025-10", amount: 15900 }
   ],
   transactions: [
-    // Recent donations (this month/week)
     { date: "2025-10-01", donor: "Anonimno", amount: 1200 },
     { date: "2025-10-03", donor: "Porodica Marković", amount: 500 },
     { date: "2025-10-05", donor: "Anonimno", amount: 2500 },
@@ -54,79 +55,121 @@ const financeData = {
     { date: "2025-10-07", donor: "Anonimno", amount: 800 }
   ]
 };
-
-// ---- Helpers ----
 const euro = (n) => new Intl.NumberFormat('de-AT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
 const parseISO = (s) => new Date(s + "T00:00:00");
 
+// ===============================
+// ISO sedmica helper
+// ===============================
 function isSameISOWeek(d1, d2) {
-  // ISO week calc
   const date = new Date(d1.valueOf());
   const dayNum = (d => (d.getDay() || 7))(date);
   date.setDate(date.getDate() + 4 - dayNum);
-  const yearStart = new Date(Date.UTC(date.getFullYear(),0,1));
-  const weekNo = Math.ceil((((date - yearStart) / 86400000) + 1)/7);
+  const yearStart = new Date(Date.UTC(date.getFullYear(), 0, 1));
+  const weekNo = Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+
   const date2 = new Date(d2.valueOf());
   const dayNum2 = (d => (d.getDay() || 7))(date2);
   date2.setDate(date2.getDate() + 4 - dayNum2);
-  const yearStart2 = new Date(Date.UTC(date2.getFullYear(),0,1));
-  const weekNo2 = Math.ceil((((date2 - yearStart2) / 86400000) + 1)/7);
+  const yearStart2 = new Date(Date.UTC(date2.getFullYear(), 0, 1));
+  const weekNo2 = Math.ceil((((date2 - yearStart2) / 86400000) + 1) / 7);
+
   return (weekNo === weekNo2) && (date.getFullYear() === date2.getFullYear());
 }
 
-// ---- KPIs ----
+// ===============================
+// KPI-i i liste
+// ===============================
 function renderKPIs() {
   const now = new Date();
-  const currentMonthStr = now.toISOString().slice(0,7);
+  const currentMonthStr = now.toISOString().slice(0, 7);
+
   const monthSum = financeData.transactions
-    .filter(t => t.date.slice(0,7) === currentMonthStr)
-    .reduce((a,b) => a + b.amount, 0);
+    .filter(t => t.date.slice(0, 7) === currentMonthStr)
+    .reduce((a, b) => a + b.amount, 0);
 
   const weekSum = financeData.transactions
     .filter(t => isSameISOWeek(parseISO(t.date), now))
-    .reduce((a,b) => a + b.amount, 0);
+    .reduce((a, b) => a + b.amount, 0);
 
-  const costsTotal = financeData.costs.reduce((a,b) => a + b.amount, 0);
+  const costsTotal = financeData.costs.reduce((a, b) => a + b.amount, 0);
   const total = financeData.totalDonations;
   const goal = financeData.goalByDec2025;
   const gap = Math.max(goal - total, 0);
-  const pct = Math.min(100, Math.round(total/goal*100));
+  const pct = Math.min(100, Math.round(total / goal * 100));
 
-  document.getElementById('kpiTotal').textContent = euro(total);
-  document.getElementById('kpiMonth').textContent = euro(monthSum);
-  document.getElementById('kpiWeek').textContent = euro(weekSum);
-  document.getElementById('kpiCosts').textContent = euro(costsTotal);
-  document.getElementById('goalBadge').textContent = euro(goal);
-  document.getElementById('progressPct').textContent = pct + "%";
-  document.getElementById('goalValue').textContent = euro(goal);
-  document.getElementById('gapValue').textContent = euro(gap);
+  const el = id => document.getElementById(id);
+  el('kpiTotal') && (el('kpiTotal').textContent = euro(total));
+  el('kpiMonth') && (el('kpiMonth').textContent = euro(monthSum));
+  el('kpiWeek') && (el('kpiWeek').textContent = euro(weekSum));
+  el('kpiCosts') && (el('kpiCosts').textContent = euro(costsTotal));
+  el('goalBadge') && (el('goalBadge').textContent = euro(goal));
+  el('progressPct') && (el('progressPct').textContent = pct + "%");
+  el('goalValue') && (el('goalValue').textContent = euro(goal));
+  el('gapValue') && (el('gapValue').textContent = euro(gap));
 
-  // Animate bar
-  const bar = document.getElementById('barFill');
-  requestAnimationFrame(() => { bar.style.width = pct + "%"; });
+  // Pokreni animaciju bara tek kad sekcija postane vidljiva
+  animateBarOnScroll(pct);
 }
-renderKPIs();
 
-// ---- Lists ----
+// ===============================
+// Dashboard scroll animacija progress bara
+// ===============================
+function animateBarOnScroll(targetPct) {
+  const bar = document.getElementById('barFill');
+  if (!bar) return;
+  bar.style.width = "0%";
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        let start = 0;
+        const duration = 1500;
+        const step = 10;
+        const totalSteps = duration / step;
+        const increment = targetPct / totalSteps;
+
+        const fillInterval = setInterval(() => {
+          start += increment;
+          if (start >= targetPct) {
+            start = targetPct;
+            clearInterval(fillInterval);
+          }
+          bar.style.width = start + "%";
+        }, step);
+
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  const section = document.querySelector('.chart-section');
+  if (section) observer.observe(section);
+}
+
+// ===============================
+// Liste finansija
+// ===============================
 function renderLists() {
   const now = new Date();
-  const thisMonth = now.toISOString().slice(0,7);
-
+  const thisMonth = now.toISOString().slice(0, 7);
   const monthList = document.getElementById('monthList');
   const weekList = document.getElementById('weekList');
   const costsList = document.getElementById('costsList');
+  if (!monthList || !weekList || !costsList) return;
+
   monthList.innerHTML = "";
   weekList.innerHTML = "";
   costsList.innerHTML = "";
 
   financeData.transactions
-    .filter(t => t.date.slice(0,7) === thisMonth)
-    .sort((a,b)=> b.date.localeCompare(a.date))
+    .filter(t => t.date.slice(0, 7) === thisMonth)
+    .sort((a, b) => b.date.localeCompare(a.date))
     .forEach(t => {
       const li = document.createElement('li');
       li.textContent = `${t.date} — ${t.donor} — ${euro(t.amount)}`;
       monthList.appendChild(li);
-      if (isSameISOWeek(parseISO(t.date), now)) {
+      if (isSameISOWeek(parseISO(t.date), new Date())) {
         weekList.appendChild(li.cloneNode(true));
       }
     });
@@ -137,178 +180,154 @@ function renderLists() {
     costsList.appendChild(li);
   });
 }
-renderLists();
 
-
-// ---- Responsive Canvas ----
-function resizeCanvas(){
+// ===============================
+// Chart (zlatni) + responsive canvas
+// ===============================
+function resizeCanvas() {
   const canvas = document.getElementById('donationsChart');
-  if(!canvas) return;
+  if (!canvas) return;
   const dpr = window.devicePixelRatio || 1;
-  // Ensure CSS width is respected; height is proportional
   const rect = canvas.getBoundingClientRect();
-  const targetWidth = Math.max(320, rect.width); // fallback min
-  const targetHeightCss = Math.max(180, Math.min(360, targetWidth * 0.45)); // 45% of width, clamped
-  // Set the CSS height to keep layout stable
+  const targetWidth = Math.max(320, rect.width || 980);
+  const targetHeightCss = Math.max(220, Math.min(360, targetWidth * 0.45));
   canvas.style.height = targetHeightCss + 'px';
-  // Set internal pixel buffer with DPR for crisp lines
   canvas.width = Math.floor(targetWidth * dpr);
   canvas.height = Math.floor(targetHeightCss * dpr);
 }
 
-function debounce(fn, ms){let t;return function(){clearTimeout(t);t=setTimeout(()=>fn.apply(this, arguments), ms);}}
-window.addEventListener('resize', debounce(()=>{ resizeCanvas(); resizeCanvas();
-drawChart(); }, 120));
-
-// ---- Chart (vanilla canvas) ----
-function drawChart() {
-  resizeCanvas();
-  const canvas = document.getElementById('donationsChart');
-  const ctx = canvas.getContext('2d');
-  const padding = { top: 20, right: 20, bottom: 36, left: 48 };
-  const w = canvas.width, h = canvas.height;
-  ctx.clearRect(0,0,w,h);
-
-  const months = financeData.donations.map(d => d.month);
-  const values = financeData.donations.map(d => d.amount);
-  const maxVal = Math.max(...values) * 1.2;
-  const barW = (w - padding.left - padding.right) / values.length * 0.6;
-
-  // Axes
-  ctx.strokeStyle = "rgba(255,255,255,0.2)";
+// crtanje chart-a (osnove)
+function drawChartBase(ctx, w, h, padding, maxVal) {
+  ctx.clearRect(0, 0, w, h);
+  ctx.strokeStyle = "rgba(0,0,0,0.20)";
   ctx.beginPath();
   ctx.moveTo(padding.left, padding.top);
   ctx.lineTo(padding.left, h - padding.bottom);
   ctx.lineTo(w - padding.right, h - padding.bottom);
   ctx.stroke();
-
-  // Y grid & labels
-  ctx.fillStyle = "rgba(255,255,255,0.6)";
+  ctx.fillStyle = "#555";
   ctx.font = "12px Inter, sans-serif";
   const steps = 4;
-  for (let i=0; i<=steps; i++){
-    const y = h - padding.bottom - (i/steps)*(h - padding.top - padding.bottom);
-    const val = Math.round((i/steps)*maxVal);
-    ctx.fillText(euro(val), 6, y+4);
-    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+  for (let i = 0; i <= steps; i++) {
+    const y = h - padding.bottom - (i / steps) * (h - padding.top - padding.bottom);
+    const val = Math.round((i / steps) * maxVal);
+    ctx.fillText(euro(val), 6, y + 4);
+    ctx.strokeStyle = "rgba(0,0,0,0.08)";
     ctx.beginPath(); ctx.moveTo(padding.left, y); ctx.lineTo(w - padding.right, y); ctx.stroke();
   }
-
-  // Bars with simple animation
-  months.forEach((m, idx) => {
-    const xCenter = padding.left + (idx + 0.5) * ((w - padding.left - padding.right) / months.length);
-    const x = xCenter - barW/2;
-    const targetH = (values[idx]/maxVal) * (h - padding.top - padding.bottom);
-    let cur = 0;
-    const step = () => {
-      ctx.fillStyle = "rgba(201,162,39,0.9)";
-      ctx.fillRect(x, h - padding.bottom - cur, barW, cur);
-      if (cur < targetH) {
-        cur += Math.max(1, targetH/20);
-        requestAnimationFrame(step);
-      } else {
-        // draw value label
-        ctx.fillStyle = "rgba(255,255,255,0.8)";
-        ctx.font = "11px Inter, sans-serif";
-        ctx.fillText(euro(values[idx]), x, h - padding.bottom - targetH - 6);
-      }
-    };
-    step();
-
-    // X labels
-    ctx.fillStyle = "rgba(255,255,255,0.6)";
-    ctx.font = "11px Inter, sans-serif";
-    const label = m.slice(5) + "." + m.slice(2,4);
-    ctx.fillText(label, xCenter - 12, h - padding.bottom + 16);
-  });
 }
-resizeCanvas();
-drawChart();
 
-// ---- Static info ----
-document.getElementById('year').textContent = new Date().getFullYear();
-document.getElementById('parishAddress').textContent = "Beispielstraße 1, 5020 Salzburg";
-document.getElementById('parishBank').textContent = "Raiffeisenbank Salzburg";
-document.getElementById('iban').textContent = "AT61 1904 3002 3457 3201";
-document.getElementById('bic').textContent = "RZOOAT2L";
+// punjenje barova (animirano na scroll)
+function animateChartOnScroll() {
+  const canvas = document.getElementById("donationsChart");
+  if (!canvas) return;
 
-// ---- Contact form (dummy) ----
-document.getElementById('contactForm').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const status = document.getElementById('formStatus');
-  status.textContent = "Hvala! Poruka je zabeležena (demo).";
-  e.target.reset();
-});
+  let animated = false;
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animated) {
+        animated = true;
+        animateBars();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
 
-// ---- Reveal animations (IntersectionObserver) ----
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('reveal');
-  });
-}, { threshold: 0.1 });
+  observer.observe(canvas);
 
-document.querySelectorAll('.card, .section h2, .kpi, .hero-text').forEach(el => {
-  el.classList.add('will-reveal'); observer.observe(el);
-});
+  function animateBars() {
+    resizeCanvas();
+    const ctx = canvas.getContext("2d");
+    const months = financeData.donations.map(d => d.month);
+    const values = financeData.donations.map(d => d.amount);
+    const maxVal = Math.max(...values) * 1.2;
+    const padding = { top: 20, right: 20, bottom: 36, left: 60 };
+    const w = canvas.width, h = canvas.height;
+    const barW = (w - padding.left - padding.right) / values.length * 0.6;
 
-// Minimal styles for reveal (append to head)
-const style = document.createElement('style');
-style.textContent = `.will-reveal{opacity:0;transform:translateY(8px);transition:.6s ease}
-.reveal{opacity:1;transform:none}`;
-document.head.appendChild(style);
+    let progress = 0;
+    const duration = 1500;
+    const steps = 60;
+    const interval = duration / steps;
 
-// ---- Theme toggle ----
-const themeToggle = document.getElementById('themeToggle');
-if (themeToggle) {
-  const currentTheme = localStorage.getItem('theme') || 'dark';
-  setTheme(currentTheme);
+    const anim = setInterval(() => {
+      progress += 1 / steps;
+      if (progress >= 1) { progress = 1; clearInterval(anim); }
 
-  themeToggle.addEventListener('click', () => {
-    const newTheme = (document.documentElement.dataset.theme === 'dark') ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-  });
+      drawChartBase(ctx, w, h, padding, maxVal);
 
-  function setTheme(theme) {
-    document.documentElement.dataset.theme = theme;
-    themeToggle.textContent = (theme === 'light') ? '🌙' : '☀️';
-    document.body.style.background = (theme === 'light') ? '#fafafa' : 'var(--bg)';
-    document.body.style.color = (theme === 'light') ? '#111' : 'var(--text)';
+      months.forEach((m, idx) => {
+        const barH = ((values[idx] * progress) / maxVal) * (h - padding.top - padding.bottom);
+        const xCenter = padding.left + (idx + 0.5) * ((w - padding.left - padding.right) / months.length);
+        const x = xCenter - barW / 2;
+        ctx.fillStyle = "rgba(201,162,39,0.9)";
+        ctx.fillRect(x, h - padding.bottom - barH, barW, barH);
+        ctx.fillStyle = "#333";
+        ctx.font = "11px Inter, sans-serif";
+        ctx.fillText(euro(values[idx]), x, h - padding.bottom - barH - 6);
+        const label = m.slice(5) + "." + m.slice(2, 4);
+        ctx.fillText(label, xCenter - 12, h - padding.bottom + 16);
+      });
+    }, interval);
   }
 }
-// ---- Compact mobile menu ----
-const menuBtn = document.getElementById('menuToggle');
-const navEl = document.getElementById('nav');
-if (menuBtn && navEl){
-  const closeMenu = () => { navEl.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); };
-  menuBtn.addEventListener('click', () => {
-    const isOpen = navEl.classList.toggle('open');
-    menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+// ===============================
+// Galerija slideshow
+// ===============================
+let slideIndex = 0;
+let slideTimer = null;
+function setSlide(n) {
+  const slides = document.querySelectorAll(".slide");
+  if (slides.length === 0) return;
+  slides.forEach(s => s.classList.remove("active"));
+  slideIndex = (n + slides.length) % slides.length;
+  slides[slideIndex].classList.add("active");
+}
+function nextSlide(delta = 1) { setSlide(slideIndex + delta); }
+function startAuto() { stopAuto(); slideTimer = setInterval(() => nextSlide(1), 4000); }
+function stopAuto() { if (slideTimer) clearInterval(slideTimer); slideTimer = null; }
+function initGallery() {
+  const slides = document.querySelectorAll(".slide");
+  if (slides.length === 0) return;
+  slideIndex = 0; setSlide(slideIndex);
+  const prevBtn = document.querySelector(".slideshow .prev");
+  const nextBtn = document.querySelector(".slideshow .next");
+  prevBtn && prevBtn.addEventListener('click', () => { nextSlide(-1); startAuto(); });
+  nextBtn && nextBtn.addEventListener('click', () => { nextSlide(1); startAuto(); });
+  const box = document.querySelector(".slideshow");
+  if (box) { box.addEventListener('mouseenter', stopAuto); box.addEventListener('mouseleave', startAuto); }
+  startAuto();
+}
+
+// ===============================
+// Kontakt forma
+// ===============================
+function initContact() {
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const status = document.getElementById('formStatus');
+    if (status) status.textContent = "Hvala! Poruka je zabeležena (demo).";
+    form.reset();
   });
-  // zatvori kada klikneš link
-  navEl.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-  // zatvori na scroll
-  window.addEventListener('scroll', closeMenu, { passive:true });
-}
-// ---- Chart lightbox (click to enlarge) ----
-const smallCanvas = document.getElementById('donationsChart');
-const lb = document.getElementById('lightbox');
-const lbImg = document.getElementById('lightboxImg');
-const lbClose = document.getElementById('lightboxClose');
-
-function openLightboxFromCanvas(cnv){
-  try{
-    const dataURL = cnv.toDataURL('image/png');
-    lbImg.src = dataURL;
-    lb.classList.add('show');
-    lb.setAttribute('aria-hidden','false');
-  }catch(e){ /* some browsers block if empty canvas */ }
 }
 
-if (smallCanvas && lb){
-  smallCanvas.style.cursor = 'zoom-in';
-  smallCanvas.addEventListener('click', ()=>openLightboxFromCanvas(smallCanvas));
-  lb.addEventListener('click', (e)=>{ if (e.target===lb || e.target.classList.contains('lightbox-backdrop')) lb.classList.remove('show'); });
-  lbClose.addEventListener('click', ()=> lb.classList.remove('show'));
-  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') lb.classList.remove('show'); });
+// ===============================
+// Init
+// ===============================
+function init() {
+  renderKPIs();
+  renderLists();
+  animateChartOnScroll();
+  initGallery();
+  initContact();
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
 }

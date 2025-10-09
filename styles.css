@@ -1,154 +1,134 @@
-/* Modern gold & white theme, minimal icons, clean layout */
 :root{
-  --bg:#0c0c0e;
-  --surface:#121217;
-  --surface-2:#171922;
-  --text:#f6f6f7;
-  --muted:#b9bcc7;
   --gold:#c9a227;
-  --gold-2:#e2c874;
-  --glass:rgba(255,255,255,0.06);
-  --border:rgba(255,255,255,0.12);
-  --ok:#2bd97c;
-  --warn:#ffcc66;
-  --danger:#ff7a7a;
+  --gold2:#e2c874;
+  --white:#fff;
+  --gray-light:#f1f1f1;
+  --text:#222;
 }
 
+/* General layout */
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);}
-a{color:inherit;text-decoration:none}
-.container{max-width:1180px;margin:0 auto;padding:0 20px}
-.row{display:flex;gap:16px}
-.grid-2{display:grid;grid-template-columns:1.1fr 0.9fr}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr}
-.gap-12{gap:12px}.gap-24{gap:24px}.gap-32{gap:32px}
-.align-center{align-items:center}
-.between{justify-content:space-between}
-
-.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(0,0,0,0.6),transparent),var(--surface);border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
-.topbar .brand{display:flex;align-items:center;gap:10px;padding:14px 0}
-.crest{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--gold),var(--gold-2));box-shadow:0 1px 0 rgba(0,0,0,.2), inset 0 0 0 2px rgba(255,255,255,.08)}
-.brand-text{font-weight:700;letter-spacing:.3px}
-.nav a{padding:14px 10px;border-radius:10px;color:var(--muted)}
-.nav a:hover{color:var(--text);background:var(--glass)}
-.actions .btn{margin-left:8px}
-
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:14px;border:1px solid var(--border);transition:transform .12s ease, background .2s ease, box-shadow .2s ease}
-.btn.primary{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1b1b1b;border-color:transparent;font-weight:700}
-.btn.primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,162,39,.25)}
-.btn.ghost{background:transparent;color:var(--text)}
-.btn.ghost:hover{background:var(--glass)}
-
-.hero{padding:64px 0 32px;background:radial-gradient(1200px 500px at 20% -10%, rgba(201,162,39,.25), transparent)}
-.hero-text h1{font-size:40px;line-height:1.1;margin:0 0 10px}
-.lead{color:var(--muted);font-size:18px;margin:0 0 22px}
-.hero-card .card{margin-top:8px}
-
-.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:18px}
-.card.glass{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));backdrop-filter: blur(6px)}
-
-.card-header h3{margin:0;font-size:18px}
-.badge{padding:6px 10px;border-radius:999px;background:rgba(201,162,39,.15);color:var(--gold);border:1px solid rgba(201,162,39,.35);font-weight:600}
-
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:16px 0}
-.kpi-label{font-size:12px;color:var(--muted)}
-.kpi-value{font-size:22px;font-weight:700;margin-top:4px}
-.kpi-sub{font-size:12px;color:var(--muted)}
-
-.progress{margin:10px 0 18px}
-.progress-top,.progress-bottom{font-size:12px;color:var(--muted)}
-.bar{height:12px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:999px;overflow:hidden;margin:6px 0 6px}
-.bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-2));width:0%}
-
-.section{padding:64px 0}
-.section.alt{background:var(--surface-2)}
-.section h2{margin:0 0 10px;font-size:28px}
-.section p{color:var(--muted)}
-
-.cards .card h3{margin:0 0 6px}
-.list{margin:10px 0 0;padding:0;list-style:none;color:var(--muted)}
-.list li{padding:8px 0;border-bottom:1px dashed var(--border)}
-
-.form .field{margin-bottom:12px}
-.form label{display:block;margin-bottom:6px;font-size:14px;color:var(--muted)}
-.form input,.form textarea{width:100%;padding:10px;border-radius:12px;border:1px solid var(--border);background:#0e0f14;color:var(--text)}
-.form-status{margin-top:8px;color:var(--ok);min-height:1em}
-
-.bank-box{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;padding:12px;border:1px solid var(--border);border-radius:16px;background:#0e0f14}
-
-.footer{border-top:1px solid var(--border);padding:18px 0;background:var(--surface)}
-.muted{color:var(--muted)}.small{font-size:12px}
-
-@media (max-width:980px){
-  .grid-2{grid-template-columns:1fr}
-  .grid-3{grid-template-columns:1fr}
-  .kpi-grid{grid-template-columns:1fr 1fr}
+html,body{
+  margin:0;padding:0;
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  background:linear-gradient(180deg,#ffffff 0%,#fff9e8 25%,#f5e7b3 80%,#fff1c9 100%);
 }
 
-#donationsChart{width:100%;display:block}
-
-/* Mobile navbar fix */
-@media (max-width: 768px) {
-  .topbar .container {
-    flex-wrap: wrap;
-  }
-
-  .nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    padding: 8px 0;
-  }
-
-  .nav a {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 12px 0;
-    border-radius: 0;
-    color: var(--text);
-  }
-
-  .actions {
-    justify-content: center;
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  .brand {
-    width: 100%;
-    justify-content: center;
-  }
+/* Sidebar */
+.layout{display:flex;min-height:100vh;}
+.sidebar.lightnav{
+  width:230px;
+  background:linear-gradient(180deg,#f8f8f8,#efefef);
+  border-right:1px solid #ddd;
+  display:flex;flex-direction:column;gap:20px;position:sticky;top:0;height:100vh;padding:20px;
 }
+.brand{display:flex;align-items:center;gap:10px;}
+.logo{width:32px;height:32px;border-radius:6px;}
+.nav a{color:#333;padding:10px 14px;border-radius:8px;display:block;transition:.2s;}
+.nav a:hover{background:rgba(0,0,0,0.06);}
+.lang-area{margin-top:auto;}
+.lang-area select{width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;background:#fff;}
 
-/* Compact mobile menu */
-.icon-btn{display:none;align-items:center;justify-content:center;border:1px solid var(--border);
-  background:var(--surface);color:var(--text);border-radius:12px;padding:8px 12px}
+/* Main content */
+.main-content{flex:1;}
+.container{max-width:1100px;margin:auto;padding:0 24px;}
 
-@media (max-width: 768px){
-  .nav{position:fixed;left:0;right:0;top:56px; /* ispod topbara */
-    background:var(--surface);border-top:1px solid var(--border);
-    transform:translateY(-16px);opacity:0;pointer-events:none;
-    transition:.18s ease;display:flex;flex-direction:column;padding:6px 12px;gap:4px}
-  .nav a{padding:12px;border-radius:10px;text-align:center}
-  .nav.open{transform:translateY(0);opacity:1;pointer-events:auto;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+/* Hero */
+.hero-img img{width:100%;height:420px;object-fit:cover;filter:blur(10px);opacity:0;animation:blurFade 5s ease forwards;}
+@keyframes blurFade{0%{filter:blur(10px);opacity:0;}100%{filter:blur(0);opacity:1;}}
+.hero{text-align:center;padding:60px 20px 30px;}
+.btn{display:inline-block;padding:10px 18px;border-radius:12px;font-weight:600;text-decoration:none;}
+.btn.primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;}
+.btn.ghost{border:1px solid var(--gold);color:var(--gold);}
 
-  .icon-btn{display:inline-flex;margin-left:8px}
-  .actions{margin-left:auto}
+/* Card + Chart */
+.card{background:linear-gradient(180deg,#ffffff,#f8f8f8);border-radius:16px;padding:24px;border:1px solid #ddd;}
+.badge{background:rgba(201,162,39,0.2);padding:6px 10px;border-radius:999px;color:#7a6400;}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:12px 0;}
+.kpi-value{font-size:22px;font-weight:700;}
+.progress-top,.progress-bottom{display:flex;justify-content:space-between;font-size:12px;color:#555;}
+.bar{height:12px;background:#e2e2e2;border-radius:999px;margin:6px 0;}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s ease;}
+#donationsChart{width:100%;display:block;margin-top:16px;}
+
+/* Finansije */
+.section{padding:60px 0;}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;}
+.card.glass{background:linear-gradient(180deg,#ffffff,#f9f9f9);border:1px solid #ddd;border-radius:20px;padding:20px;}
+.list{list-style:none;padding:0;margin:0;}
+.list li{padding:8px 0;border-bottom:1px dashed #ccc;color:#333;}
+
+/* Galerija */
+.gallery-section{text-align:center;}
+.slideshow{position:relative;max-width:800px;margin:auto;overflow:hidden;border-radius:20px;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+.slide{display:none;}
+.slide img{width:100%;height:auto;object-fit:contain;background:#fff;}
+.slide.active{display:block;}
+.prev,.next{
+  cursor:pointer;
+  position:absolute;top:50%;
+  width:auto;padding:12px;margin-top:-22px;
+  color:#333;font-weight:bold;font-size:24px;
+  border-radius:50%;background:rgba(255,255,255,0.7);
+  user-select:none;
 }
+.next{right:10px;}
+.prev{left:10px;}
+.prev:hover,.next:hover{background:#fff;}
 
-/* little polish */
-@media (max-width: 768px){
-  .topbar .container{align-items:center}
-  .brand{flex-shrink:0}
+/* Kontakt + Donacije */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.contact-donation{align-items:start;}
+.form{background:#fffdf5;padding:30px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+.field{margin-bottom:16px;}
+label{display:block;margin-bottom:6px;font-weight:600;}
+input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;font-size:15px;}
+.form-status{color:green;text-align:center;margin-top:10px;}
+.donate-card{text-align:left;}
+.bank-box{margin-top:10px;border:1px solid #ccc;border-radius:12px;padding:12px;display:grid;gap:6px;background:#f9f9f9;}
+.qrcode{width:130px;margin-top:20px;border-radius:10px;}
+
+/* Footer */
+.footer{text-align:center;padding:20px 0;color:#444;background:transparent;border-top:1px solid rgba(0,0,0,0.1);}
+
+/* Responsive */
+@media (max-width:768px){
+  .layout{flex-direction:column;}
+  .sidebar.lightnav{flex-direction:row;height:auto;width:100%;position:static;justify-content:space-between;align-items:center;}
+  .nav{display:flex;gap:10px;overflow-x:auto;}
+  .grid-2{grid-template-columns:1fr;}
+  .hero-img img{height:260px;}
+  .form{width:100%;margin-bottom:20px;}
 }
-
-/* Lightbox */
-.lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1000}
-.lightbox.show{display:flex}
-.lightbox-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(2px)}
-.lightbox img{position:relative;max-width:92vw;max-height:80vh;border-radius:16px;border:1px solid var(--border);background:var(--surface)}
-.close-btn{position:absolute;top:14px;right:14px}
+/* Blog / O projektu sekcija */
+.blog-section{text-align:center;}
+.blog-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:24px;
+  margin-top:30px;
+}
+.blog-card{
+  background:linear-gradient(180deg,#ffffff,#f8f8f8);
+  border:1px solid #ddd;
+  border-radius:16px;
+  padding:24px;
+  text-align:left;
+  box-shadow:0 4px 16px rgba(0,0,0,0.08);
+}
+.blog-card h3{margin-top:0;margin-bottom:8px;color:#222;}
+.blog-card p{color:#555;font-size:15px;min-height:70px;}
+.blog-card .btn{margin-top:12px;}
+.blog-card .btn.primary{
+  display:inline-block;
+  background:linear-gradient(135deg,#c9a227,#e2c874);
+  color:#000;
+  font-weight:600;
+  border:none;
+  border-radius:10px;
+  padding:10px 16px;
+  text-decoration:none;
+  transition:.2s;
+}
+.blog-card .btn.primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(201,162,39,0.3);}

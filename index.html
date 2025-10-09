@@ -3,241 +3,168 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Parohija Salzburg — Izgradnja Hrama</title>
-  <meta name="description" content="Zvanična stranica Parohije Salzburg: projekat izgradnje, transparentne donacije i finansijski izvještaji." />
+  <title>Moja Misija — Izgradnja Hrama</title>
   <link rel="stylesheet" href="styles.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="container row between align-center">
-      <div class="brand">
-        <div class="crest" aria-hidden="true"></div>
-        <span class="brand-text" data-i18n="brand">Parohija Salzburg</span>
-      </div>
 
-     <nav class="nav" id="nav">
-  <a href="#projekt" data-i18n="nav_project">O projektu</a>
-  <a href="#parohija" data-i18n="nav_parish">Parohija</a>
-  <a href="#finansije" data-i18n="nav_finance">Tokovi finansija</a>
-  <a href="#kontakt" data-i18n="nav_contact">Kontakt</a>
-</nav>
-
-<button id="menuToggle" class="icon-btn" aria-label="Menu" aria-expanded="false">☰</button>
-
-
-      <div class="actions row align-center">
-        <div class="lang-switch">
-          <select id="langSelect" aria-label="Language">
-            <option value="sr_lat">SR (latinica)</option>
-            <option value="sr_cyr">СР (ћирилица)</option>
-            <option value="de">DE</option>
-            <option value="en">EN</option>
-          </select>
-        </div>
-        <button id="themeToggle" class="btn ghost" title="Toggle Light/Dark Mode">☀️</button>
-
-        <a class="btn primary" href="#doniraj" data-i18n="cta_donate">Doniraj</a>
-      </div>
+<div class="layout">
+  <aside class="sidebar lightnav">
+    <div class="brand">
+      <img src="logo1.png" alt="Logo" class="logo">
+      <span class="brand-text">Moja Misija</span>
     </div>
-  </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container grid-2 gap-32">
-      <div class="hero-text">
-        <h1 data-i18n="hero_title">Izgradnja pravoslavnog hrama u Salzburgu</h1>
-        <p class="lead" data-i18n="hero_subtitle">
-          Zajedno gradimo sveti dom — transparentno, odgovorno i s ljubavlju.
-        </p>
-        <div class="hero-cta row gap-12">
-          <a class="btn primary" href="#finansije" data-i18n="cta_view_finance">Pogledaj finansije</a>
-          <a class="btn ghost" href="#projekt" data-i18n="cta_learn_more">Saznaj više</a>
+    <nav class="nav" id="nav">
+      <a href="#projekt">O projektu</a>
+      <a href="#galerija">Galerija</a>
+      <a href="#finansije">Tokovi finansija</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+
+    <div class="lang-area">
+      <select id="langSelect">
+        <option value="sr_lat">SR (latinica)</option>
+        <option value="de">DE</option>
+        <option value="en">EN</option>
+      </select>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <section class="hero-img">
+      <img src="Gesamt.png" alt="Hram" class="blur-in">
+    </section>
+
+    <section class="hero">
+      <div class="container">
+        <h1>Izgradnja pravoslavnog hrama u Salzburgu</h1>
+        <p class="lead">Zajedno gradimo sveti dom — transparentno, odgovorno i s ljubavlju.</p>
+        <div class="hero-cta">
+          <a class="btn primary" href="#finansije">Pogledaj finansije</a>
+          <a class="btn ghost" href="#projekt">Saznaj više</a>
         </div>
       </div>
-      <div class="hero-card">
-        <div class="card glass">
-          <div class="card-header row between align-center">
-            <h3 data-i18n="dash_title">Stanje donacija</h3>
-            <span class="badge" id="goalBadge" title="Goal by Dec 2025"></span>
+    </section>
+
+    <section class="chart-section">
+      <div class="container">
+        <div class="card light">
+          <div class="card-header">
+            <h3>Stanje donacija</h3>
+            <span class="badge" id="goalBadge">€ 0</span>
           </div>
           <div class="kpi-grid">
-            <div class="kpi">
-              <div class="kpi-label" data-i18n="kpi_total">Ukupno donacija</div>
-              <div class="kpi-value" id="kpiTotal">€0</div>
-              <div class="kpi-sub" id="kpiTotalSub" data-i18n="kpi_total_sub">od početka projekta</div>
-            </div>
-            <div class="kpi">
-              <div class="kpi-label" data-i18n="kpi_month">Ovaj mjesec</div>
-              <div class="kpi-value" id="kpiMonth">€0</div>
-              <div class="kpi-sub" id="kpiMonthSub"></div>
-            </div>
-            <div class="kpi">
-              <div class="kpi-label" data-i18n="kpi_week">Ove sedmice</div>
-              <div class="kpi-value" id="kpiWeek">€0</div>
-              <div class="kpi-sub" id="kpiWeekSub"></div>
-            </div>
-            <div class="kpi">
-              <div class="kpi-label" data-i18n="kpi_costs">Troškovi (plac + radovi)</div>
-              <div class="kpi-value" id="kpiCosts">€0</div>
-              <div class="kpi-sub" data-i18n="kpi_costs_sub">ukupno do danas</div>
-            </div>
+            <div><div class="kpi-label">Ukupno donacija</div><div class="kpi-value" id="kpiTotal">€0</div></div>
+            <div><div class="kpi-label">Ovaj mjesec</div><div class="kpi-value" id="kpiMonth">€0</div></div>
+            <div><div class="kpi-label">Ove sedmice</div><div class="kpi-value" id="kpiWeek">€0</div></div>
+            <div><div class="kpi-label">Troškovi</div><div class="kpi-value" id="kpiCosts">€0</div></div>
           </div>
 
           <div class="progress">
-            <div class="progress-top row between">
-              <span data-i18n="progress_goal">Cilj do decembra 2025</span>
-              <span id="progressPct">0%</span>
-            </div>
-            <div class="bar">
-              <div class="bar-fill" id="barFill" style="width: 0%"></div>
-            </div>
-            <div class="progress-bottom row between">
-              <span id="goalValue">€0</span>
-              <span><span data-i18n="progress_diff">Preostalo</span>: <strong id="gapValue">€0</strong></span>
-            </div>
+            <div class="progress-top"><span>Cilj do decembra 2025</span><span id="progressPct">0%</span></div>
+            <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+            <div class="progress-bottom"><span id="goalValue">€0</span><span>Preostalo: <strong id="gapValue">€0</strong></span></div>
           </div>
 
-          <canvas id="donationsChart" width="800" height="280" aria-label="Donations chart"></canvas>
+          <canvas id="donationsChart" width="980" height="300"></canvas>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Projekt -->
-  <section id="projekt" class="section">
-    <div class="container">
-      <h2 data-i18n="project_title">O projektu</h2>
-      <p data-i18n="project_text">
-        Projekat obuhvata kupovinu placa, izgradnju hrama i pratećih objekata. Transparentnost je prioritet:
-        objavljujemo sve relevantne finansijske tokove i napredak radova.
-      </p>
-      <div class="cards grid-3 gap-24">
-        <div class="card">
-          <h3 data-i18n="card_transparency_title">Potpuna transparentnost</h3>
-          <p data-i18n="card_transparency_text">Mjesečni i sedmični izvještaji, otvoreni podaci o donacijama i troškovima.</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="card_parish_title">Parohija Salzburg</h3>
-          <p data-i18n="card_parish_text">Zvanične informacije, vjerski život i zajedničke aktivnosti.</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="card_build_title">Napredak izgradnje</h3>
-          <p data-i18n="card_build_text">Foto i video izvještaji, ključni prekretnice i plan radova.</p>
+    <section id="finansije" class="section">
+      <div class="container">
+        <h2>Tokovi finansija</h2>
+        <div class="grid-3 gap-24">
+          <div class="card glass"><h3>Ovaj mjesec</h3><ul id="monthList" class="list"></ul></div>
+          <div class="card glass"><h3>Ove sedmice</h3><ul id="weekList" class="list"></ul></div>
+          <div class="card glass"><h3>Troškovi</h3><ul id="costsList" class="list"></ul></div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+<!-- O PROJEKTU (blog sekcija s PDF linkovima) -->
+<section id="projekt" class="section blog-section">
+  <div class="container">
+    <h2>O projektu</h2>
+    <p class="lead">
+      Projekat izgradnje Kulturnog i Duhovno-Pravoslavnog Centra u Guggenthalu
+      obuhvata crkvu, višenamensku salu i prostore za obrazovne i kulturne aktivnosti.
+      Na ovoj stranici redovno objavljujemo novosti, studije i planove.
+    </p>
 
-  <!-- Parohija -->
-  <section id="parohija" class="section alt">
-    <div class="container">
-      <h2 data-i18n="parish_title">Parohija Salzburg</h2>
-      <div class="grid-2 gap-32">
+    <div class="blog-grid">
+      <article class="blog-card">
+        <h3>Studija izgradnje – kulturni i duhovni centar</h3>
+        <p>Prezentacija glavne ideje i vizije projekta sa osnovnim podacima o planiranom kompleksu.</p>
+        <a href="BS_Präsentation_2.pdf" target="_blank" class="btn primary">Otvori PDF</a>
+      </article>
+
+      <article class="blog-card">
+        <h3>Bebauungsstudie – osnove i parametri</h3>
+        <p>Sažetak osnovnih podataka o parceli, površini, planiranoj visini i mogućnostima izgradnje.</p>
+        <a href="Bebauungsstudie Kirche - Zusammenfassung Grundlagen.pdf" target="_blank" class="btn primary">Otvori PDF</a>
+      </article>
+
+      <article class="blog-card">
+        <h3>Kulturno i duhovno–pravoslavni centar</h3>
+        <p>Kompletna studija i 3D prikazi planiranog centra sa svim tehničkim detaljima i planovima.</p>
+        <a href="BS_Kulturelles und Geistlich-Orthodoxes Zentrum.pdf" target="_blank" class="btn primary">Otvori PDF</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+    <section id="galerija" class="section gallery-section">
+      <div class="container">
+        <h2>Galerija</h2>
+        <div class="slideshow">
+          <div class="slide active"><img src="West kirche.png" alt="West"></div>
+          <div class="slide"><img src="Kirche1.png" alt="Nord Ost"></div>
+          <div class="slide"><img src="Kirche2.png" alt="Süd Ost"></div>
+          <a class="prev">&#10094;</a>
+          <a class="next">&#10095;</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="kontakt" class="section">
+      <div class="container grid-2 gap-32 contact-donation">
         <div>
-          <p data-i18n="parish_text_1">
-            Parohija okuplja vjernike i prijatelje pravoslavne tradicije u Salzburgu i okolini.
-          </p>
-          <p data-i18n="parish_text_2">
-            Cilj nam je da izgradimo hram koji će služiti kao duhovni dom i mjesto zajedništva.
-          </p>
+          <h2>Kontakt</h2>
+          <form id="contactForm" class="form">
+            <div class="field"><label>Ime i prezime</label><input type="text" required></div>
+            <div class="field"><label>Email</label><input type="email" required></div>
+            <div class="field"><label>Poruka</label><textarea rows="5" required></textarea></div>
+            <button class="btn primary" type="submit">Pošalji</button>
+            <p id="formStatus" class="form-status"></p>
+          </form>
         </div>
-        <div class="card glass">
-          <h3 data-i18n="parish_info_title">Kontakt i info</h3>
-          <ul class="list">
-            <li><strong data-i18n="parish_address">Adresa</strong>: <span id="parishAddress">n/a</span></li>
-            <li><strong data-i18n="parish_email">E‑pošta</strong>: <a href="mailto:info@parohija-salzburg.at">info@parohija-salzburg.at</a></li>
-            <li><strong data-i18n="parish_bank">Banka</strong>: <span id="parishBank">n/a</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Finansije -->
-  <section id="finansije" class="section">
-    <div class="container">
-      <h2 data-i18n="finance_title">Tokovi finansija</h2>
-      <div class="grid-3 gap-24">
-        <div class="card">
-          <h3 data-i18n="finance_this_month">Ovaj mjesec</h3>
-          <ul class="list" id="monthList"></ul>
-        </div>
-        <div class="card">
-          <h3 data-i18n="finance_this_week">Ove sedmice</h3>
-          <ul class="list" id="weekList"></ul>
-        </div>
-        <div class="card">
-          <h3 data-i18n="finance_costs">Troškovi (plac + radovi)</h3>
-          <ul class="list" id="costsList"></ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Kontakt / Doniraj -->
-  <section id="kontakt" class="section alt">
-    <div class="container grid-2 gap-32">
-      <div>
-        <h2 data-i18n="contact_title">Kontakt</h2>
-        <p data-i18n="contact_text">
-          Za pitanja o projektu ili načinu doniranja, javite nam se.
-        </p>
-        <form id="contactForm" class="form">
-          <div class="field">
-            <label for="name" data-i18n="form_name">Ime i prezime</label>
-            <input id="name" name="name" type="text" placeholder="Ime i prezime" required />
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="vaš@email.com" required />
-          </div>
-          <div class="field">
-            <label for="message" data-i18n="form_message">Poruka</label>
-            <textarea id="message" name="message" rows="4" placeholder="Poruka..."></textarea>
-          </div>
-          <button class="btn primary" type="submit" data-i18n="form_send">Pošalji</button>
-          <p id="formStatus" class="form-status" role="status"></p>
-        </form>
-      </div>
-      <div id="doniraj">
-        <h2 data-i18n="donate_title">Donacije</h2>
-        <div class="card glass">
-          <p data-i18n="donate_text">
-            Podržite izgradnju hrama. Uplatu možete izvršiti bankovnim transferom.
-          </p>
-          <div class="bank-box">
-            <div><strong>IBAN:</strong> <span id="iban">AT00 0000 0000 0000 0000</span></div>
-            <div><strong>BIC:</strong> <span id="bic">XXXXATXX</span></div>
-            <div><strong data-i18n="donate_purpose">Svrha</strong>: <span data-i18n="donate_purpose_text">Donacija za izgradnju hrama</span></div>
+        <div id="doniraj">
+          <h2>Donacije</h2>
+          <div class="card light donate-card">
+            <p>Podržite izgradnju hrama bankovnim transferom ili QR kodom.</p>
+            <div class="bank-box">
+              <div><strong>IBAN:</strong> AT61 1904 3002 3457 3201</div>
+              <div><strong>BIC:</strong> RZOOAT2L</div>
+              <div><strong>Svrha:</strong> Donacija za izgradnju hrama</div>
+            </div>
+            <img src="qrcode.png" alt="QR Kod" class="qrcode">
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="footer">
-    <div class="container row between align-center">
-      <div class="muted small">
-        © <span id="year"></span> <span data-i18n="brand">Parohija Salzburg</span>. <span data-i18n="all_rights">Sva prava zadržana.</span>
+    <footer class="footer">
+      <div class="container">
+        © <span id="year"></span> Moja Misija — Sva prava zadržana.
       </div>
-      <div class="muted small">
-        <a href="#" data-i18n="imprint">Impressum</a> • <a href="#" data-i18n="privacy">Privatnost</a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="translations.js"></script>
-  <script src="app.js"></script>
-  <!-- Lightbox for chart -->
-<div id="lightbox" class="lightbox" aria-hidden="true">
-  <div class="lightbox-backdrop"></div>
-  <img id="lightboxImg" alt="Donations chart enlarged" />
-  <button id="lightboxClose" class="icon-btn close-btn" aria-label="Close">✕</button>
+    </footer>
+  </main>
 </div>
 
+<script src="translations.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
